@@ -338,8 +338,10 @@ class AbstractPreprocWrapper:
 class disable_weight_init_clean_groupnorm(comfy.ops.disable_weight_init):
     class GroupNorm(comfy.ops.disable_weight_init.GroupNorm):
         def forward_comfy_cast_weights(self, input):
-            weight, bias = comfy.ops.cast_bias_weight(self, input)
-            return torch.nn.functional.group_norm(input, self.num_groups, weight, bias, self.eps)
+            weight, bias, offload_stream = comfy.ops.cast_bias_weight(self, input, offloadable=True)
+            x = torch.nn.functional.group_norm(input, self.num_groups, weight, bias, self.eps)
+            comfy.ops.uncast_bias_weight(self, weight, bias, offload_stream)
+            return x
 
         def forward(self, input):
             if self.comfy_cast_weights:
