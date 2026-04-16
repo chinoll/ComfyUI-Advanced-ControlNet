@@ -10,8 +10,6 @@ from .nodes_keyframes import (LatentKeyframeGroupNode, LatentKeyframeInterpolati
 from .nodes_sparsectrl import SparseCtrlMergedLoaderAdvanced, SparseCtrlLoaderAdvanced, SparseIndexMethodNode, SparseSpreadMethodNode, RgbSparseCtrlPreprocessor, SparseWeightExtras
 from .nodes_reference import ReferenceControlNetNode, ReferenceControlFinetune, ReferencePreprocessorNode
 from .nodes_plusplus import PlusPlusLoaderAdvanced, PlusPlusLoaderSingle, PlusPlusInputNode
-from .nodes_chenkincontrol_plusplus import (ChenkinPlusPlusLoaderAdvanced, ChenkinPlusPlusLoaderSingle,
-                                            ChenkinPlusPlusInputNode)
 from .nodes_ctrlora import CtrLoRALoader
 from .nodes_loosecontrol import ControlNetLoaderWithLoraAdvanced
 from .nodes_deprecated import (LoadImagesFromDirectory, ScaledSoftUniversalWeightsDeprecated,
@@ -59,10 +57,6 @@ NODE_CLASS_MAPPINGS = {
     "ACN_ControlNet++LoaderSingle": PlusPlusLoaderSingle,
     "ACN_ControlNet++LoaderAdvanced": PlusPlusLoaderAdvanced,
     "ACN_ControlNet++InputNode": PlusPlusInputNode,
-    # chenkincontrol_plusplus (Chenkin fork: wider input_hint_block + experimental FUSE type)
-    "ACN_ChenkinControlNet++LoaderSingle": ChenkinPlusPlusLoaderSingle,
-    "ACN_ChenkinControlNet++LoaderAdvanced": ChenkinPlusPlusLoaderAdvanced,
-    "ACN_ChenkinControlNet++InputNode": ChenkinPlusPlusInputNode,
     # CtrLoRA
     "ACN_CtrLoRALoader": CtrLoRALoader,
     # Reference
@@ -120,10 +114,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "ACN_ControlNet++LoaderSingle": "Load ControlNet++ Model (Single) 🛂🅐🅒🅝",
     "ACN_ControlNet++LoaderAdvanced": "Load ControlNet++ Model (Multi) 🛂🅐🅒🅝",
     "ACN_ControlNet++InputNode": "ControlNet++ Input 🛂🅐🅒🅝",
-    # chenkincontrol_plusplus
-    "ACN_ChenkinControlNet++LoaderSingle": "Load chenkincontrol_plusplus (Single) 🛂🅐🅒🅝",
-    "ACN_ChenkinControlNet++LoaderAdvanced": "Load chenkincontrol_plusplus (Multi) 🛂🅐🅒🅝",
-    "ACN_ChenkinControlNet++InputNode": "chenkincontrol_plusplus Input 🛂🅐🅒🅝",
     # CtrLoRA
     "ACN_CtrLoRALoader": "Load CtrLoRA Model 🛂🅐🅒🅝",
     # Reference
