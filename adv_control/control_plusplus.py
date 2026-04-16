@@ -11,7 +11,6 @@ from collections import OrderedDict
 
 
 from comfy.ldm.modules.diffusionmodules.util import (zero_module, timestep_embedding)
-from comfy.ldm.modules.diffusionmodules.openaimodel import TimestepEmbedSequential
 
 from comfy.cldm.cldm import ControlNet as ControlNetCLDM
 import comfy.cldm.cldm
@@ -38,11 +37,10 @@ class PlusPlusType:
     SEGMENT = "segment"
     TILE = "tile"
     REPAINT = "inpaint/outpaint"
-    FUSE = "fuse(实验性功能)"
     NONE = "none"
-    _LIST_WITH_NONE = [OPENPOSE, DEPTH, THICKLINE, THINLINE, NORMAL, SEGMENT, TILE, REPAINT, FUSE, NONE]
-    _LIST = [OPENPOSE, DEPTH, THICKLINE, THINLINE, NORMAL, SEGMENT, TILE, REPAINT, FUSE]
-    _DICT = {OPENPOSE: 0, DEPTH: 1, THICKLINE: 2, THINLINE: 3, NORMAL: 4, SEGMENT: 5, TILE: 6, REPAINT: 7, FUSE: 8, NONE: -1}
+    _LIST_WITH_NONE = [OPENPOSE, DEPTH, THICKLINE, THINLINE, NORMAL, SEGMENT, TILE, REPAINT, NONE]
+    _LIST = [OPENPOSE, DEPTH, THICKLINE, THINLINE, NORMAL, SEGMENT, TILE, REPAINT]
+    _DICT = {OPENPOSE: 0, DEPTH: 1, THICKLINE: 2, THINLINE: 3, NORMAL: 4, SEGMENT: 5, TILE: 6, REPAINT: 7, NONE: -1}
 
     @classmethod
     def to_idx(cls, control_type: str):
@@ -151,26 +149,6 @@ class ControlNetPlusPlus(ControlNetCLDM):
 
         operations: comfy.ops.disable_weight_init = kwargs.get("operations", comfy.ops.disable_weight_init)
         device = kwargs.get("device", None)
-        dims = 2
-        hint_channels = kwargs.get("hint_channels", 3)
-        c0, c1, c2, c3 = 48, 96, 192, 384
-        self.input_hint_block = TimestepEmbedSequential(
-            operations.conv_nd(dims, hint_channels, c0, 3, padding=1, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c0, c0, 3, padding=1, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c0, c1, 3, padding=1, stride=2, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c1, c1, 3, padding=1, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c1, c2, 3, padding=1, stride=2, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c2, c2, 3, padding=1, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c2, c3, 3, padding=1, stride=2, dtype=self.dtype, device=device),
-            nn.SiLU(),
-            operations.conv_nd(dims, c3, self.model_channels, 3, padding=1, dtype=self.dtype, device=device),
-        )
 
         time_embed_dim = self.model_channels * 4
         control_add_embed_dim = 256
