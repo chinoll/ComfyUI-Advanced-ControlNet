@@ -371,7 +371,7 @@ class ControlNetPlusPlusAdvanced(ControlNet, AdvancedControlBase):
         context = cond.get('crossattn_controlnet', cond['c_crossattn'])
         y = cond.get('y', None)
         if y is not None:
-            y = comfy.model_base.convert_tensor(y, dtype, x_noisy.device)
+            y = comfy.model_base.convert_tensor(y, dtype).to(x_noisy.device)
         timestep = self.model_sampling_current.timestep(t)
         x_noisy = self.model_sampling_current.calculate_input(t, x_noisy)
 
